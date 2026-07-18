@@ -42,6 +42,14 @@ Java 25 · Spring Boot 4.1 · Spring Web MVC · **Thymeleaf** · Spring Data JPA
 
 No database setup needed — H2 runs in memory and sample data is seeded on startup (2 instructors, 3 courses covering all registration-window states, 3 students, 3 enrollments).
 
+**With Docker (nothing else required — no JDK, no Maven):**
+
+```bash
+docker-compose up --build
+```
+
+**Or locally (requires JDK 25):**
+
 ```bash
 mvnw.cmd spring-boot:run     # Windows
 ./mvnw spring-boot:run       # Linux / macOS

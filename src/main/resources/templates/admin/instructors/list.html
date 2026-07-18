@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Instructors')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+    <div class="toolbar">
+        <h1>Instructors</h1>
+        <a class="btn" th:href="@{/admin/instructors/new}">+ Add instructor</a>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(instructors)}">
+        <tr><th>Name</th><th>Email</th><th></th></tr>
+        <tr th:each="i : ${instructors}">
+            <td th:text="${i.name}">name</td>
+            <td th:text="${i.email}">email</td>
+            <td style="text-align:right; white-space:nowrap;">
+                <a class="btn secondary small" th:href="@{/admin/instructors/{id}/edit(id=${i.id})}">Edit</a>
+                <form class="inline" th:action="@{/admin/instructors/{id}/delete(id=${i.id})}" method="post"
+                      onsubmit="return confirm('Delete this instructor?')">
+                    <button class="btn danger small" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(instructors)}">No instructors yet.</p>
+</main>
+</body>
+</html>

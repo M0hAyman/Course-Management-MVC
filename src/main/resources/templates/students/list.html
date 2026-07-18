@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Students')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+    <div class="toolbar">
+        <h1>Students</h1>
+        <a class="btn" th:href="@{/students/new}">+ Register student</a>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(students)}">
+        <tr><th>Name</th><th>Email</th><th></th></tr>
+        <tr th:each="s : ${students}">
+            <td><a th:href="@{/students/{id}(id=${s.id})}" th:text="${s.name}">name</a></td>
+            <td th:text="${s.email}">email</td>
+            <td style="text-align:right; white-space:nowrap;">
+                <a class="btn secondary small" th:href="@{/students/{id}/edit(id=${s.id})}">Edit</a>
+                <form class="inline" th:action="@{/students/{id}/delete(id=${s.id})}" method="post"
+                      onsubmit="return confirm('Delete this student and their enrollments?')">
+                    <button class="btn danger small" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(students)}">No students registered yet.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Courses')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+    <h1>Course catalog</h1>
+
+    <div class="cards">
+        <div class="card" th:each="item : ${courses.content}">
+            <h3>
+                <a th:href="@{/courses/{id}(id=${item.course.id})}" th:text="${item.course.title}">Title</a>
+            </h3>
+            <span th:class="'badge ' + ${item.status}" th:text="${item.status}">OPEN</span>
+            <p th:text="${item.course.description}">Description</p>
+            <p class="muted">
+                <span th:text="${item.course.credits}">3</span> credits ·
+                <span th:text="${item.course.instructorName}">Instructor</span>
+            </p>
+        </div>
+    </div>
+    <p class="muted" th:if="${courses.totalElements == 0}">No courses available yet.</p>
+
+    <div class="pager">
+        <a class="btn secondary small" th:if="${courses.hasPrevious()}"
+           th:href="@{/courses(page=${courses.number - 1})}">← Previous</a>
+        <a class="btn secondary small" th:if="${courses.hasNext()}"
+           th:href="@{/courses(page=${courses.number + 1})}">Next →</a>
+    </div>
+</main>
+</body>
+</html>

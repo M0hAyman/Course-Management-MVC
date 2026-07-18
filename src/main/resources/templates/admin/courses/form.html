@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Course form')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Course</h1>
+    <form class="form-card" th:action="${formAction}" th:object="${form}" method="post">
+        <label for="title">Title</label>
+        <input id="title" type="text" th:field="*{title}" placeholder="Course title">
+        <div class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+        <label for="description">Description</label>
+        <textarea id="description" rows="3" th:field="*{description}" placeholder="What is this course about?"></textarea>
+
+        <label for="credits">Credits</label>
+        <input id="credits" type="number" min="1" th:field="*{credits}">
+        <div class="field-error" th:if="${#fields.hasErrors('credits')}" th:errors="*{credits}"></div>
+
+        <label for="instructorId">Instructor</label>
+        <select id="instructorId" th:field="*{instructorId}">
+            <option value="" disabled selected>Choose an instructor…</option>
+            <option th:each="i : ${instructors}" th:value="${i.id}" th:text="${i.name}">Instructor</option>
+        </select>
+        <div class="field-error" th:if="${#fields.hasErrors('instructorId')}" th:errors="*{instructorId}"></div>
+
+        <label for="registrationStartTime">Registration opens</label>
+        <input id="registrationStartTime" type="datetime-local" th:field="*{registrationStartTime}">
+        <div class="field-error" th:if="${#fields.hasErrors('registrationStartTime')}" th:errors="*{registrationStartTime}"></div>
+
+        <label for="registrationEndTime">Registration closes</label>
+        <input id="registrationEndTime" type="datetime-local" th:field="*{registrationEndTime}">
+        <div class="field-error" th:if="${#fields.hasErrors('registrationEndTime')}" th:errors="*{registrationEndTime}"></div>
+
+        <div class="actions">
+            <button class="btn" type="submit">Save</button>
+            <a class="btn secondary" th:href="@{/admin/courses}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

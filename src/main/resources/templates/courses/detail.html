@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${course.title})}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+
+    <div class="toolbar">
+        <h1 th:text="${course.title}">Course</h1>
+        <span th:class="'badge ' + ${status}" th:text="${status}">OPEN</span>
+    </div>
+
+    <div class="card">
+        <p th:text="${course.description}">Description</p>
+        <p class="muted">
+            <span th:text="${course.credits}">3</span> credits ·
+            taught by <span th:text="${course.instructorName}">Instructor</span>
+        </p>
+        <p class="muted">
+            Registration window:
+            <span th:text="${#strings.replace(course.registrationStartTime ?: 'always open', 'T', ' ')}">start</span>
+            →
+            <span th:text="${#strings.replace(course.registrationEndTime ?: 'no end', 'T', ' ')}">end</span>
+        </p>
+    </div>
+
+    <h2>Enroll a student</h2>
+    <form class="form-card" th:action="@{/courses/{id}/enroll(id=${course.id})}" method="post">
+        <label for="studentId">Student</label>
+        <select id="studentId" name="studentId" required>
+            <option value="" disabled selected>Choose a student…</option>
+            <option th:each="s : ${students}" th:value="${s.id}"
+                    th:text="${s.name} + ' (' + ${s.email} + ')'">Student</option>
+        </select>
+        <div class="actions">
+            <button class="btn" type="submit">Enroll</button>
+            <a class="btn secondary" th:href="@{/students/new}">Register new student</a>
+        </div>
+    </form>
+
+    <h2>Enrolled students (<span th:text="${#lists.size(enrollments)}">0</span>)</h2>
+    <table th:if="${!#lists.isEmpty(enrollments)}">
+        <tr><th>Student</th><th>Enrolled at</th></tr>
+        <tr th:each="e : ${enrollments}">
+            <td><a th:href="@{/students/{id}(id=${e.studentId})}" th:text="${e.studentName}">name</a></td>
+            <td th:text="${#strings.replace(e.enrolledAt, 'T', ' ')}">time</td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(enrollments)}">No enrollments yet.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · Course Management'">Course Management</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f5f6f8; color: #1f2430; }
+        nav { background: #1e2a3a; padding: 0.8rem 1.5rem; display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+        nav .brand { color: #fff; font-weight: 700; margin-right: 1rem; text-decoration: none; }
+        nav a { color: #c8d2e0; text-decoration: none; font-size: 0.95rem; }
+        nav a:hover { color: #fff; }
+        nav .admin-label { color: #7f93ad; font-size: 0.8rem; margin-left: auto; }
+        main { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        h1 { font-size: 1.5rem; margin-bottom: 1.2rem; }
+        h2 { font-size: 1.15rem; margin: 1.5rem 0 0.8rem; }
+        .flash { padding: 0.7rem 1rem; border-radius: 8px; margin-bottom: 1.2rem; }
+        .flash.success { background: #e2f4e8; color: #1c6b34; border: 1px solid #b5e0c3; }
+        .flash.error { background: #fbe7e7; color: #a12525; border: 1px solid #f0bcbc; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+        th, td { text-align: left; padding: 0.7rem 1rem; border-bottom: 1px solid #eef0f3; font-size: 0.93rem; }
+        th { background: #f0f2f5; font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+        .card { background: #fff; border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+        .card h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+        .card p { font-size: 0.88rem; color: #5a6372; margin: 0.3rem 0; }
+        .badge { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 99px; letter-spacing: 0.03em; }
+        .badge.OPEN { background: #e2f4e8; color: #1c6b34; }
+        .badge.CLOSED { background: #fbe7e7; color: #a12525; }
+        .badge.OPENS.SOON, .badge.SOON { background: #fdf1dc; color: #8a5a00; }
+        a.btn, button.btn { display: inline-block; background: #2563eb; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.9rem; text-decoration: none; cursor: pointer; }
+        .btn.secondary { background: #e5e9f0; color: #1f2430; }
+        .btn.danger { background: #dc2626; }
+        .btn.small { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+        form.inline { display: inline; }
+        .form-card { background: #fff; border-radius: 10px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); max-width: 540px; }
+        .form-card label { display: block; font-size: 0.88rem; font-weight: 600; margin: 0.9rem 0 0.3rem; }
+        .form-card input, .form-card select, .form-card textarea { width: 100%; padding: 0.55rem 0.7rem; border: 1px solid #cdd4de; border-radius: 8px; font-size: 0.93rem; font-family: inherit; }
+        .form-card .field-error { color: #a12525; font-size: 0.82rem; margin-top: 0.25rem; }
+        .form-card .actions { margin-top: 1.4rem; display: flex; gap: 0.6rem; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+        .muted { color: #5a6372; font-size: 0.88rem; }
+        .pager { margin-top: 1.2rem; display: flex; gap: 0.6rem; }
+    </style>
+</head>
+
+<body>
+
+<nav th:fragment="nav">
+    <a class="brand" th:href="@{/}">📚 Course Management</a>
+    <a th:href="@{/courses}">Courses</a>
+    <a th:href="@{/students}">Students</a>
+    <span class="admin-label">ADMIN:</span>
+    <a th:href="@{/admin/courses}">Manage courses</a>
+    <a th:href="@{/admin/instructors}">Instructors</a>
+    <a th:href="@{/admin/reports}">Report</a>
+</nav>
+
+<div th:fragment="flash">
+    <div class="flash success" th:if="${success}" th:text="${success}"></div>
+    <div class="flash error" th:if="${error}" th:text="${error}"></div>
+</div>
+
+</body>
+</html>

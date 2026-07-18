@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Manage courses')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+    <div class="toolbar">
+        <h1>Manage courses</h1>
+        <a class="btn" th:href="@{/admin/courses/new}">+ Create course</a>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(courses)}">
+        <tr><th>Title</th><th>Credits</th><th>Instructor</th><th>Registration window</th><th></th></tr>
+        <tr th:each="c : ${courses}">
+            <td th:text="${c.title}">title</td>
+            <td th:text="${c.credits}">3</td>
+            <td th:text="${c.instructorName}">instructor</td>
+            <td class="muted">
+                <span th:text="${#strings.replace(c.registrationStartTime ?: '—', 'T', ' ')}">start</span>
+                →
+                <span th:text="${#strings.replace(c.registrationEndTime ?: '—', 'T', ' ')}">end</span>
+            </td>
+            <td style="text-align:right; white-space:nowrap;">
+                <a class="btn secondary small" th:href="@{/admin/courses/{id}/edit(id=${c.id})}">Edit</a>
+                <form class="inline" th:action="@{/admin/courses/{id}/delete(id=${c.id})}" method="post"
+                      onsubmit="return confirm('Soft-delete this course? It disappears from the catalog but history is kept.')">
+                    <button class="btn danger small" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(courses)}">No courses yet.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Instructor form')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Instructor</h1>
+    <form class="form-card" th:action="${formAction}" th:object="${form}" method="post">
+        <label for="name">Name</label>
+        <input id="name" type="text" th:field="*{name}" placeholder="Full name">
+        <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <label for="email">Email</label>
+        <input id="email" type="text" th:field="*{email}" placeholder="instructor@uni.edu">
+        <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <div class="actions">
+            <button class="btn" type="submit">Save</button>
+            <a class="btn secondary" th:href="@{/admin/instructors}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

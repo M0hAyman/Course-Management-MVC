@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Enrollment report')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Enrollment report</h1>
+    <p class="muted">Enrollment counts per active course.</p>
+
+    <table th:if="${!#lists.isEmpty(report)}" style="margin-top:1rem;">
+        <tr><th>Course</th><th>Instructor</th><th>Enrollments</th><th>Registration window</th></tr>
+        <tr th:each="r : ${report}">
+            <td th:text="${r.title}">title</td>
+            <td th:text="${r.instructorName}">instructor</td>
+            <td><strong th:text="${r.enrollmentCount}">0</strong></td>
+            <td class="muted">
+                <span th:text="${#strings.replace(r.registrationStartTime ?: '—', 'T', ' ')}">start</span>
+                →
+                <span th:text="${#strings.replace(r.registrationEndTime ?: '—', 'T', ' ')}">end</span>
+            </td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(report)}">No active courses.</p>
+</main>
+</body>
+</html>

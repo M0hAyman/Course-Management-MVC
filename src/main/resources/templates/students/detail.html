@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${student.name})}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <div th:replace="~{fragments :: flash}"></div>
+
+    <div class="toolbar">
+        <h1 th:text="${student.name}">Student</h1>
+        <a class="btn secondary small" th:href="@{/students/{id}/edit(id=${student.id})}">Edit</a>
+    </div>
+    <p class="muted" th:text="${student.email}">email</p>
+
+    <h2>Enrollments (<span th:text="${#lists.size(enrollments)}">0</span>)</h2>
+    <table th:if="${!#lists.isEmpty(enrollments)}">
+        <tr><th>Course</th><th>Enrolled at</th><th></th></tr>
+        <tr th:each="e : ${enrollments}">
+            <td><a th:href="@{/courses/{id}(id=${e.courseId})}" th:text="${e.courseTitle}">course</a></td>
+            <td th:text="${#strings.replace(e.enrolledAt, 'T', ' ')}">time</td>
+            <td style="text-align:right;">
+                <form class="inline" th:action="@{/students/{sid}/unenroll/{eid}(sid=${student.id}, eid=${e.id})}"
+                      method="post" onsubmit="return confirm('Unenroll from this course?')">
+                    <button class="btn danger small" type="submit">Unenroll</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <p class="muted" th:if="${#lists.isEmpty(enrollments)}">
+        Not enrolled in any course yet — <a th:href="@{/courses}">browse the catalog</a>.
+    </p>
+</main>
+</body>
+</html>

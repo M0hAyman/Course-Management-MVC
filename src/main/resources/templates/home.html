@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Home')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Welcome to the Course Management System</h1>
+    <p class="muted">
+        A monolithic Spring MVC + Thymeleaf twin of the Course Management REST services.
+        Browse the course catalog and enroll as a student, or manage the system from the admin pages.
+    </p>
+    <h2>Quick links</h2>
+    <p style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+        <a class="btn" th:href="@{/courses}">Browse courses</a>
+        <a class="btn secondary" th:href="@{/students}">Students</a>
+        <a class="btn secondary" th:href="@{/admin/courses}">Admin: manage courses</a>
+        <a class="btn secondary" th:href="@{/admin/reports}">Admin: enrollment report</a>
+    </p>
+</main>
+</body>
+</html>
